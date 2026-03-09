@@ -23,7 +23,6 @@ var blacklist = []string{
 }
 
 type Window struct {
-	ID    uint32
 	PID   uint32
 	App   string
 	Title string
@@ -63,7 +62,7 @@ func ListAllWindows() []*Window {
 		}
 
 		windows = append(windows, &Window{
-			ID:    uint32(C.getWindowID(dict)),
+			PID:   uint32(C.getWindowPID(dict)),
 			App:   owner,
 			Title: CFStringToGo(titleCF),
 		})
@@ -100,7 +99,7 @@ func GetWindowByPID(pid int) (*Window, error) {
 		}
 
 		return &Window{
-			ID:    uint32(C.getWindowID(dict)),
+			PID:   uint32(C.getWindowPID(dict)),
 			App:   CFStringToGo(C.getWindowOwner(dict)),
 			Title: CFStringToGo(C.getWindowTitle(dict)),
 		}, nil
@@ -129,7 +128,7 @@ func (win *Window) GetFrame() (Rect, error) {
 		&h,
 	))
 	if !ok {
-		return Rect{}, errors.New("failed to get window frame")
+		return Rect{}, fmt.Errorf("failed to get window frame for %s", win.App)
 	}
 
 	return Rect{
@@ -146,7 +145,7 @@ func (win *Window) Focus() error {
 	if err != C.kAXErrorSuccess {
 		return fmt.Errorf("failed to focus window: %d", int(err))
 	}
-	log.Printf("[windows] window %s focused", win.App)
+	log.Printf("[windows] focused window %s", win.App)
 	return nil
 }
 

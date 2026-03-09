@@ -59,16 +59,17 @@ func (c *Container) Resize() {
 
 // Focus moves focus to the container
 func (c *Container) Focus() {
-	for _, container := range workspace.Containers {
-		container.Focused = false
-	}
-	c.Focused = true
+	// for _, container := range workspace.Containers {
+	// 	container.Focused = false
+	// }
+	// c.Focused = true
 	err := c.Window[0].Focus()
 	if err != nil {
 		log.Printf("[manager] failed to focus window: %v", err)
 	}
-	c.workspace.scrollTo(c)
-	c.workspace.sync()
+	log.Printf("[manager] focused container %s", c.Name())
+	// c.workspace.scrollTo(c)
+	// c.workspace.sync()
 }
 
 // index of this container in the workspace

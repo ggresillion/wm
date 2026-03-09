@@ -66,12 +66,15 @@ func (ws *Workspace) compute() []Position {
 		}
 	}
 
-	log.Printf("[manager] computed workspace: viewport=%dx%d;position=%d,%d;offset=%d;positions=%s",
+	focused := ws.focused().Name()
+
+	log.Printf("[manager] computed workspace: viewport=%dx%d;position=%d,%d;offset=%d;focused=%s;positions=%s",
 		ws.Viewport.W,
 		ws.Viewport.H,
 		ws.Viewport.X,
 		ws.Viewport.Y,
 		ws.Offset,
+		focused,
 		dumpPositions(positions))
 
 	return positions
@@ -137,17 +140,19 @@ func (ws *Workspace) onWindowFocused(win *windows.Window) {
 	log.Printf("[workspace] event window focused %s", win)
 	for _, container := range ws.Containers {
 		container.Focused = false
-		if container.Window[0].ID == win.ID {
+		if container.Window[0].PID == win.PID {
 			container.Focused = true
 		}
 	}
+	container := ws.focused()
+	ws.scrollTo(container)
 	ws.sync()
 }
 
 func (ws *Workspace) onWindowDestroy(win *windows.Window) {
 	log.Printf("[workspace] event window destroyed %s", win)
 	for i, container := range ws.Containers {
-		if container.Window[0].ID == win.ID {
+		if container.Window[0].PID == win.PID {
 			ws.Containers = append(ws.Containers[:i], ws.Containers[i+1:]...)
 			break
 		}

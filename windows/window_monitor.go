@@ -80,35 +80,30 @@ func onEvent(
 	switch eventName {
 	case "AXApplicationActivated":
 		onWindowFocused(&Window{
-			ID:    winID,
 			PID:   pid,
 			App:   appName,
 			Title: title,
 		})
 	case "AXMoved":
 		onWindowMoved(&Window{
-			ID:    winID,
 			PID:   pid,
 			App:   appName,
 			Title: title,
 		}, x, y)
 	case "AXResized":
 		onWindowResized(&Window{
-			ID:    winID,
 			PID:   pid,
 			App:   appName,
 			Title: title,
 		}, width, height)
 	case "AXCreated":
 		onWindowCreated(&Window{
-			ID:    winID,
 			PID:   pid,
 			App:   appName,
 			Title: title,
 		})
 	case "AXDestroyed":
 		onWindowDestroyed(&Window{
-			ID:    winID,
 			PID:   pid,
 			App:   appName,
 			Title: title,

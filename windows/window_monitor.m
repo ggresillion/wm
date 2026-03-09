@@ -289,14 +289,14 @@ static void observeWindow(AXUIElementRef windowRef, NSRunningApplication *app) {
     return;
   }
 
-  NSLog(@"app = %s", app.localizedName.UTF8String);
-  NSLog(@"pid = %d", pid);
-  NSLog(@"windowID = %d", windowID);
-  NSLog(@"title = %s", title.UTF8String);
-  NSLog(@"x = %d", x);
-  NSLog(@"y = %d", y);
-  NSLog(@"width = %d", width);
-  NSLog(@"height = %d", height);
+  // NSLog(@"app = %s", app.localizedName.UTF8String);
+  // NSLog(@"pid = %d", pid);
+  // NSLog(@"windowID = %d", windowID);
+  // NSLog(@"title = %s", title.UTF8String);
+  // NSLog(@"x = %d", x);
+  // NSLog(@"y = %d", y);
+  // NSLog(@"width = %d", width);
+  // NSLog(@"height = %d", height);
 
   char *appName = strdup(app.localizedName.UTF8String);
   char *titleStr = strdup(title.UTF8String);
